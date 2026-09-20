@@ -218,3 +218,39 @@ mod EffectPrototype e.g. `FW_FishingTouchStamina` with:
 
 If negative `Stamina` is ignored by the game, fall back to ModKit BP stamina node (search ZoneKit/CraftableZone examples) — still no private API inventing.
 
+
+---
+
+## Verified stamina (2026-09-20)
+
+### Drain via effect (works in-game)
+- Custom effect inheriting `WaterStaminaInstant` via  
+  `{refurl=@BaseGame/EffectPrototypes.cfg;refkey=WaterStaminaInstant}`  
+  with `ValueMin/Max = -N%`, `Positive = EBeneficial::Negative`.
+- Test item `FWTestStaminaNeg` → consume → bar drops. Do **not** use bare `{refkey=[0]}` in mod EffectPrototypes (looks up local file → ModKit missing-field spam).
+
+### Read current stamina (official Blueprint API — Stalker2.Obj)
+Source: https://cdn.stalker2.com/guides/Blueprint_API_Guide.pdf
+
+| Node | Returns |
+|---|---|
+| **Get SP** | `float` current stamina |
+| **Get Max SP** | `float` max stamina |
+| **On Stamina Changed** | event `Prev SPValue`, `Next SPValue` |
+| Set SP / Set Max SP | exist — prefer effect for drain; use Set only if needed |
+
+### Fight touch gate (lose fish if not enough)
+
+On each successful Interact window press:
+
+1. `PlayerObj` = current player `Obj` (same path you use elsewhere / Is Current Player).
+2. `Cost = Get Max SP() * (StaminaCostPct / 100.0)`  
+   (species table: Common 8, Heavy 12, …).
+3. **If `Get SP() < Cost` → Fail** (fish escapes). Do **not** apply drain.
+4. Else apply drain:
+   - preferred: apply effect SID for that cost (or one generic −% effect scaled — if apply-by-SID isn’t exposed, use `Set SP` to `Get SP() - Cost` as fallback),
+   - then `TouchesDone++`.
+
+Regen / artifacts / overload need no extra code: `Get SP` / regen already reflect them.
+
+Optional: bind **On Stamina Changed** during Fight to abort if SP hits 0 mid-window.
