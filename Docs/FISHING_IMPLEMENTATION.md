@@ -1,7 +1,25 @@
-﻿# FishableWaters — Fishing implementation (detailed steps)
+# FishableWaters — Fishing implementation (detailed steps)
 
 Design: no mini-game. Catch = **n–p Interact presses**, spaced **x–y seconds**, each costing **z % stamina**. Rarer fish = more presses / higher cost → needs strong stamina regen (artifacts). Overload slows regen → drop gear → stay exposed.
 
+
+---
+
+## Build order override (Gerald 2026-09-20)
+
+**Water / fishing spot LAST.** Do not block on WP water volume or `BP_FW_FishingSpot`.
+
+Interim start (anywhere, for testing):
+- Use rod item `FW_FishingRod` from inventory, **or**
+- Console / debug “start fishing session” on player (same FSM)
+
+Then implement in this order:
+1. Item `FW_FishingRod` + mesh `FW_FishingRod_Mesh` + loc + give
+2. Species data (`DT_FishingSpecies` / `species_table_v0`)
+3. Session FSM Idle → WaitingBite → Fight → Success/Fail (**no water check**)
+4. Fight: Interact presses + `Get SP` / `Get Max SP` gate + drain effect −%
+5. Success → grant `FWPerch` (disassemble already OK)
+6. **Only then:** water overlap / `BP_FW_FishingSpot` + require rod + inside volume
 Vanilla rod mesh (no MeshPrototype SID in base GameData — we add one):
 `StaticMesh'/Game/_Stalker_2/props/general/SM_gen_fishing_rod_01_a.SM_gen_fishing_rod_01_a'`
 → ModGameData SID: **`FW_FishingRod_Mesh`**
