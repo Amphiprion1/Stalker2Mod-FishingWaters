@@ -1,0 +1,27 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "FishableWaters",
+	"Description": "Fishing and fish cooking for Lootable Zone & Craftable Zone 2.0",
+	"Category": "Game Features",
+	"CreatedBy": "Fishable Waters",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": true,
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"ExplicitlyLoaded": true,
+	"BuiltInInitialFeatureState": "Registered",
+	"Mod": true,
+	"Plugins": [
+		{
+			"Name": "CraftableZone",
+			"Enabled": true
+		}
+	]
+}

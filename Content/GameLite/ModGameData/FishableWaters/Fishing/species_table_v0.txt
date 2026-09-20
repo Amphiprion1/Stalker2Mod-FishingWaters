@@ -1,0 +1,9 @@
+﻿# FishableWaters — fishing species table (v0 draft)
+# Consumed later by BP / DT_FishingSpecies (ST to create in ModEditor).
+# Columns explained in Docs/FISHING_IMPLEMENTATION.md
+
+# SID | LootItemSID | TouchesMin | TouchesMax | GapMinSec | GapMaxSec | StaminaCostPct | BiteChance | WeightClass
+FWPerch_Common | FWPerch | 3 | 5 | 1.2 | 2.5 | 8 | 0.55 | Common
+FWPerch_Heavy  | FWPerch | 6 | 9 | 1.0 | 2.0 | 12 | 0.25 | Uncommon
+# Rare placeholder (future SID)
+# FWCatfish_Rare | FWCatfish | 10 | 14 | 0.8 | 1.6 | 18 | 0.08 | Rare
