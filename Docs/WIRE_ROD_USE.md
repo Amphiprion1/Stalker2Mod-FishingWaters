@@ -1,29 +1,27 @@
-# Wire FW_FishingRod Use -> fishing session (no water yet)
+﻿# Wire FW_FishingRod Use -> fishing session (no water yet)
 
-## Goal
-When player clicks **Utiliser** on `FW_FishingRod`, start the fishing FSM anywhere (water later).
+## Hook (cfg + proven)
 
-## Hook (official API)
-On player `Obj` (Stalker2.Obj):
-- Event / override: **On Before Use Item** (`FItemUID Item UID`)
-- Also exists: **On Item Use Ended** (PC)
+`FW_FishingRod` → `FW_FishingRodUseEffect` → `FW_FishingRodShake` →
+`BP_FW_FishingRodUse` (LegacyCameraShake) — Print String OK in-game.
 
-## Where
-Prefer `BP_Mod_FishableWaters` (ModWorldSubsystem) if it can bind to the local player Obj on start.
-Else Event Graph on a player-owned helper spawned from the Game Feature.
+## Reuse CraftableZone Actor (preferred)
 
-## v0 proof (do this first)
-1. Open `BP_Mod_FishableWaters` (or create `BP_FW_FishingSession` owned by mod subsystem).
-2. On subsystem init / BeginPlay: get **Current Player** Obj (`Is Current Player`).
-3. Bind or implement **On Before Use Item**.
-4. From `Item UID`, resolve prototype SID (search ModKit nodes: Item UID -> Prototype SID / Get Item Prototype). Compare to `FW_FishingRod`.
-5. If match: **Print String** `FW fishing: Use rod` (or on-screen debug).
-6. Package + test Utiliser — you should see the print. No water check.
+Do **not** spawn a second fishing Actor.
 
-## Then FSM stub
-Same branch calls `StartFishingSession`:
-- State WaitingBite (timer 2–5 s for test)
-- Fight: N touches, each: `Cost = Get Max SP * 0.08`; if `Get SP < Cost` -> Fail; else apply `FW_TestStaminaNeg25` (or Set SP) and count++
-- Success: give `FWPerch` (same give path as console)
+| BP | Role |
+|----|------|
+| `BP_Mod_FishableWaters` | ModWorldSubsystem — already spawns/attaches helper |
+| `BP_FlishableWaters` | Actor on player — CZ recipes / dismantle **and** fishing FSM |
+| `BP_FW_FishingRodUse` | Thin trigger on Utiliser only |
+
+### Wire
+
+1. On `BP_FlishableWaters`: add custom event / function `StartFishingSession` (v0: Print String `FW fishing: session start`).
+2. On `BP_FW_FishingRodUse` → Event Receive Play Shake:
+   - **Get All Actors Of Class** `BP_FlishableWaters` (Context Sensitive off if needed)
+   - **Get** (0) → call `StartFishingSession`
+3. Later: inside `StartFishingSession` → Get Player Character → Cast to Obj → Get SP / FSM.
+   (Actor is already attached to player — Attach parent / Get Owner may also work.)
 
 Water / spot = last.
