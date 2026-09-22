@@ -1,0 +1,8 @@
+﻿# FishableWaters — fishing zones (v0)
+# Canonical DT: Content/DataTables/DT_FW_FishingZones (struct ST_FW_FishingZone)
+# Each Spawn = Fish RowName (in DT_FW_FishSpecies) + Weight
+# See Docs/DATATABLES_V0.md
+
+# ZoneRowName | FishRowName:Weight, ...
+DefaultAnywhere | FWPerch_Common:70, FWPerch_Heavy:30
+# LesserZone_Pond_01 | FWPerch_Common:90, FWPerch_Heavy:10
