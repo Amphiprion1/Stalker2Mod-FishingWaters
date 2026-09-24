@@ -25,3 +25,11 @@ Verify: LocDB currently only has FWPerch (+ fillet). After regen it must list `s
 - `AGA` (gauss) → Calibre “Batterie”, HUD battery icon
 - **Now `A045`**: Calibre has vanilla loc; HUD may show .45 ammo icon (calibre atlas). Inventory Icon stays fish (`T_FW_Perch`).
 - `FittingWeaponsSIDs` = rod only
+
+## Feedback toast SIDs
+
+Runtime feedback strings (deny / bite / success / abort) use keys sid_fw_feedback_* in the **same** LOC_Mod_FishableWaters asset. Copy list: Content/GameLite/ModGameData/FishableWaters/Localization/FW_Feedback_Loc_stub.cfg. Wiring: Docs/FEEDBACK_V0.md. Same LocDB refresh rule as bait.
+
+## RPG rebase (2026-09-24)
+
+Weapon-rod is now based on `GunRpg7_GL` (not UDP). Calibre stays **A045** for loc/HUD. Second test bait `FW_Bait_B` (ArmorPiercing) reuses `FW_Bait` LocalizationSID for now. Full notes + rollback: `Docs/ROD_RPG_BASE.md`.

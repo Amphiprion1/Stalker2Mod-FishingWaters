@@ -8,4 +8,6 @@ Sole cfg home: `Content/GameLite/ModGameData/FishableWaters/`
 - `MeshPrototypes/` — `FW_FishingRod_Mesh`
 - Quests — CraftableZone disassemble
 
+- Localization/ - **stub only** (FW_Feedback_Loc_stub.cfg): copy SIDs into Content/DataTables/LOC_Mod_FishableWaters (not loaded as GameData)
+
 See `Docs/WEAPON_ROD_SPIKE.md`.

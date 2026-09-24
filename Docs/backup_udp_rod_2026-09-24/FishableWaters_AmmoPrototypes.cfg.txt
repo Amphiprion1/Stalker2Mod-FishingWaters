@@ -1,6 +1,5 @@
-﻿// Bait - A045 so Calibre has vanilla loc (not None) and HUD is not gauss/battery icon.
+﻿// Bait — A045 so Calibre has vanilla loc (not None) and HUD is not gauss/battery icon.
 // FittingWeaponsSIDs = rod only. Inventory Icon = fish; HUD ammo may still use caliber atlas.
-// FW_Bait = Default; FW_Bait_B = ArmorPiercing (second test bait via AmmoType switch).
 FW_Bait : struct.begin {refurl=@BaseGame/ItemPrototypes/AmmoPrototypes.cfg;refkey=TemplateAmmo}
    SID = FW_Bait
    LocalizationSID = FW_Bait
@@ -26,10 +25,4 @@ FW_Bait : struct.begin {refurl=@BaseGame/ItemPrototypes/AmmoPrototypes.cfg;refke
    FittingWeaponsSIDs : struct.begin
       [0] = FW_FishingRod_Wep
    struct.end
-struct.end
-
-// Same-file inherit like vanilla A045A : {refkey=A045D}. Loc SID inherited (test OK).
-FW_Bait_B : struct.begin {refkey=FW_Bait}
-   SID = FW_Bait_B
-   AmmoType = EAmmoType::ArmorPiercing
 struct.end
