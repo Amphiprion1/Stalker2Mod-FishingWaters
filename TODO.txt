@@ -1,0 +1,156 @@
+Les données du mod sont en place. Les graphes Blueprint restent à poser dans l’éditeur : l’API Python du Zone Kit ne peut pas lire ni éditer les nœuds (la propriété Nodes est protégée, K2Node_CallFunction n’est pas exposé). Je n’ai pas laissé de copies de BP_FW_FishingRodUse, parce qu’elles appelleraient encore StartFishingSession au moment d’Utiliser un appât.
+
+BP_FlishableWaters est revenu à la version déjà commitée (add bait restriction support). La canne, le shake de tir et le filtre RequiredBaitSID n’ont pas été réécrits.
+
+Inventaire
+
+La session de pêche est BP_FlishableWaters, spawné par BP_Mod_FishableWaters. ActiveBait y existe déjà, avec le filtre « ActiveBait match restriction » contre RequiredBaitSID (tableau de strings sur ST_FW_FishSpawnEntry). L’arme est FW_FishingRod_Wep, base GunRpg7_GL, MaxAmmo = 1, shake de tir FW_FishingRodShake vers BP_FW_FishingRodUse. L’ancien couple FW_Bait / FW_Bait_B (munitions Default / ArmorPiercing) est retiré. Le calibre natif EAmmoCaliber s’arrête à A012, A045, A545, A556, A762, A762NATO, A762Sniper, A918, A919, A939, AGA, AHEDP, APG7V, AVOG, None. Il n’y a pas de valeur libre à créer.
+
+Cfg ajoutés
+
+Munition unique, calibre déjà déclaré sur la canne. Seul FW_Hook cite la canne dans FittingWeaponsSIDs.
+
+FW_Hook : struct.begin {refurl=@BaseGame/ItemPrototypes/AmmoPrototypes.cfg;refkey=TemplateAmmo}
+   SID = FW_Hook
+   LocalizationSID = FW_Hook
+   Type = EItemType::Ammo
+   Weight = 0.005
+   Cost = 5.0
+   MaxStackCount = 99
+   Caliber = EAmmoCaliber::A045
+   AmmoType = EAmmoType::Default
+   AmmoPackCount = 1
+   DamageMod = 0.0
+   FittingWeaponsSIDs : struct.begin
+      [0] = FW_FishingRod_Wep
+   struct.end
+struct.end
+
+La canne ne garde que le projectile Default → empty. Le slot ArmorPiercing de FW_Bait_B est retiré. MaxAmmo reste 1. Les anims fire/reload ne sont pas touchées. ShootCameraShakePrototypeSID reste FW_FishingRodShake.
+
+Effets, même schéma que FW_FishingRodUseEffect. ValueMin/Max = 1 pour que l’effet parte vraiment. Le tremblement visible est coupé par Scale = 0.01 et l’amplitude du Blueprint.
+
+FW_Effect_BaitWorm : struct.begin {refurl=@BaseGame/EffectPrototypes.cfg;refkey=ConcussionCameraShake}
+   SID = FW_Effect_BaitWorm
+   CameraShakePrototypeSID = FW_CamShake_BaitWorm
+   Duration = 0.2
+   Charges = 1
+   ValueMin = 1.0
+   ValueMax = 1.0
+   ValueProviderSID = Empty
+struct.end
+
+FW_Effect_BaitMeat est identique avec FW_CamShake_BaitMeat.
+
+FW_CamShake_BaitWorm : struct.begin
+   SID = FW_CamShake_BaitWorm
+   Type = ECameraShakeType::Constant
+   Scale = 0.01
+   Priority = 0
+   CameraShakePath = Blueprint'/FishableWaters/BP_FW_Shake_BaitWorm.BP_FW_Shake_BaitWorm'
+   GroupSID = Concussion
+struct.end
+
+FW_CamShake_BaitMeat pointe vers BP_FW_Shake_BaitMeat. Le champ lu sur le proto voisin est CameraShakePath.
+
+Consommables dans FishableWaters_ConsumablePrototypes.cfg. Héritage Bread, puis les tableaux de satiété, soin et radiation sont vidés avec {bskipref}. Ver = mesh saucisse, 0,05 kg. Chair = mesh conserve, 0,15 kg. InventoryActionTime = 0.8, stack 30, ConsumeOnUse = true.
+
+EffectPrototypeSIDs : struct.begin {bskipref}
+   [0] = FW_Effect_BaitWorm
+struct.end
+
+La viande pointe vers FW_Effect_BaitMeat.
+
+Générateur prologue, ajout seulement. Le pistolet de Skif ([0]) n’est pas réécrit. La canne est un slot WeaponSecondary en [5].
+
+E01_MQ01_PlayerItemGenerator : struct.begin {bpatch}
+   ItemGenerator : struct.begin {bpatch}
+      [3] : struct.begin {bpatch}
+         PossibleItems : struct.begin {bpatch}
+            [*] : struct.begin
+               ItemPrototypeSID = FW_Bait_Worm
+               Chance = 1
+               MinCount = 5
+               MaxCount = 5
+            struct.end
+            [*] : struct.begin
+               ItemPrototypeSID = FW_Bait_Meat
+               Chance = 1
+               MinCount = 5
+               MaxCount = 5
+            struct.end
+         struct.end
+      struct.end
+      [4] : struct.begin {bpatch}
+         PossibleItems : struct.begin {bpatch}
+            [*] : struct.begin
+               ItemPrototypeSID = FW_Hook
+               Chance = 1
+               MinCount = 30
+               MaxCount = 30
+               bRequireWeapon = false
+            struct.end
+         struct.end
+      struct.end
+   struct.end
+struct.end
+
+Textes FR dans FW_Feedback_Loc_stub.cfg (sid_items_FW_Hook_*, FW_Bait_Worm_*, FW_Bait_Meat_*). Ce cfg n’est pas chargé. Il faut les coller dans LOC_Mod_FishableWaters puis régénérer la Localization Database, comme pour FWPerch.
+
+Graphes à poser
+
+1. Enum EFW_ActiveBait dans Content : None, Worm, Meat.
+2. BP_FlishableWaters. La variable ActiveBait est déjà là et sert au filtre string RequiredBaitSID. Passe son type à EFW_ActiveBait, défaut None. Rebranche les pins cassés du match : compare le nom de l’enum (None / Worm / Meat) au tableau RequiredBaitSID.
+   • SetActiveBait(NewBait) : Set ActiveBait = NewBait. Rien d’autre.
+   • GetActiveBait() : retourne ActiveBait.
+   • StartFishingSession lit GetActiveBait() et ne le remet pas à None.
+   • EndFishingSession(Success) seulement : SetActiveBait(None). Pas de second item retiré de l’inventaire.
+   • None : pas de poisson, toast déjà prévu sid_fw_feedback_DenyNoBait (« Pas d'appât. »).
+   • Worm / Meat : le filtre existant. Sur les lignes de zone, mets Worm dans RequiredBaitSID des communs et Meat sur la faune agressive. Aujourd’hui la zone n’a que FWPerch.
+3. Shakes. Duplique BP_FW_FishingRodUse en BP_FW_Shake_BaitWorm et BP_FW_Shake_BaitMeat (parent LegacyCameraShake). Dans Receive Play Shake, remplace l’appel StartFishingSession :
+   • Get All Actors of Class → BP_FlishableWaters → Get index 0
+   • SetActiveBait(Worm) ou SetActiveBait(Meat)
+   • Print String ActiveBait=Worm ou ActiveBait=Meat (écran + log)
+   • Dans les defaults du shake, amplitude de toutes les oscillations à 0.
+
+Le tir de la canne continue de passer par BP_FW_FishingRodUse → StartFishingSession. Un appât ne lance pas la pêche.
+
+Checklist PIE
+
+Relance le PIE pour recharger le GameData. Si E01 ne donne pas les objets, console :
+
+XCreateItemInInventoryByID FW_FishingRod_Wep 0 1 1
+XCreateItemInInventoryByID FW_Hook 0 30 1
+XCreateItemInInventoryByID FW_Bait_Worm 0 5 1
+XCreateItemInInventoryByID FW_Bait_Meat 0 5 1
+
+1. Départ : 30 hameçons, 5 vers, 5 chairs, canne équipable, pistolet de Skif toujours là.
+2. Utiliser le ver → log ActiveBait=Worm, 4 vers. Pas de soin, pas de faim.
+3. Utiliser la chair → log ActiveBait=Meat, 4 chairs.
+4. Équiper la canne, Reload → 1 hameçon chargé, stack −1.
+5. Fire → hameçon à 0, session de pêche, ActiveBait toujours Meat.
+6. Fire à vide → pas de lancé.
+7. Manger du pain vanilla → ActiveBait reste Meat.
+
+Je n’ai pas lancé le PIE.
+
+Risques
+
+┌───────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Point                 │ État                                                                                                                                                                │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Calibre exclusif      │ Impossible : l’enum natif est fermé. A045 + FittingWeaponsSIDs seulement. Un chargeur vanilla .45 peut encore entrer dans la canne si le moteur ne regarde que le   │
+│                       │ calibre.                                                                                                                                                            │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ SID FW_Bait / FW_Bait │ Retirés. Les anciennes commandes de spawn ne marchent plus.                                                                                                         │
+│ _B                    │                                                                                                                                                                     │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Asset shake           │ Les deux CameraShakePath pointent vers des Blueprint qui n’existent pas encore. Utiliser un appât avant de les créer consomme l’item sans poser ActiveBait.         │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Générateur E01        │ {bpatch} + [*] est censé ajouter. S’il écrase la catégorie, les bandages ou les balles de départ sautent : supprime FishableWaters_ItemGeneratorPrototypes.cfg.     │
+│                       │ E02_MQ01 n’est pas patché.                                                                                                                                          │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Loc                   │ Les noms s’afficheront en SID tant que LOC_Mod_FishableWaters n’a pas les nouvelles clés.                                                                           │
+├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Tirage d’espèce       │ Le filtre RequiredBaitSID est déjà dans ResolveActiveFish. Les lignes de zone ne distinguent pas encore Ver et Chair.                                               │
+└───────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
