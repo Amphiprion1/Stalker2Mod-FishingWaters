@@ -1,11 +1,10 @@
-﻿FW_FishingRod_Wep_Player : struct.begin {refurl=@BaseGame/WeaponData/CharacterWeaponSettingsPrototypes/PlayerWeaponSettingsPrototypes.cfg;refkey=GunGauss_Scar_SP_Player_WS}
+﻿FW_FishingRod_Wep_Player : struct.begin {refurl=@BaseGame/WeaponData/CharacterWeaponSettingsPrototypes/PlayerWeaponSettingsPrototypes.cfg;refkey=GunRpg7_GL_Player}
    SID = FW_FishingRod_Wep_Player
    BaseDamage = 0.0
    BaseBleeding = 0.0
    ChanceBleedingPerShot = 0%
    ArmorDamage = 0.0
    ArmorPiercing = 0.0
-   CoverPiercing = 0.0
    FireLoudness = 0.05
    DurabilityDamagePerShot = 0.0
 struct.end

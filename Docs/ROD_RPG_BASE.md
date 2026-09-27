@@ -1,3 +1,5 @@
+> **SUPERSEDED (2026-09-27):** the rod is now based on the Gauss Scar (99-hook vanilla mag). See [ROD_GAUSS_BASE.md](ROD_GAUSS_BASE.md). RPG-era cfg backups: `Docs/backup_rpg_rod_2026-09-27/`.
+
 # Rod rebase onto RPG-7U (GunRpg7_GL)
 
 Date: 2026-09-24
