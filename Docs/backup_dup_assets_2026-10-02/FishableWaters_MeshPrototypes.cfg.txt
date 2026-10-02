@@ -1,0 +1,14 @@
+﻿// World (dropped) mesh. Pivot at mid-rod so the pickup point is in the middle.
+// Refkey is a vanilla weapon world mesh (no inherited material).
+FW_FishingRod_Mesh : struct.begin {refurl=@BaseGame/MeshPrototypes.cfg;refkey=GunGauss_StaticMesh}
+	SID = FW_FishingRod_Mesh
+	MeshPath = StaticMesh'/FishableWaters/Actors/SM_FW_FishingRod_World.SM_FW_FishingRod_World'
+struct.end
+
+// Not used for now
+FW_FishingRod_SKMesh : struct.begin {refurl=@BaseGame/MeshPrototypes.cfg;refkey=rpg7_Skeletal}
+	SID = FW_FishingRod_SKMesh
+	MeshPath = SkeletalMesh'/FishableWaters/Actors/SKM_fishing_rod_01.SKM_fishing_rod_01'
+	MaterialPath = MaterialInstanceConstant'/Game/_Stalker_2/props/general/Materials/MI_gen_fishing_rod_01.MI_gen_fishing_rod_01'
+	MeshType = EMeshSubType::Skeletal
+struct.end

@@ -1,4 +1,4 @@
-﻿// FP = FW_Rod_Gauss (duplicate of SK_gauss). World = fishing rod static. Loc keys: sid_items_FW_FishingRod_Wep_name / _description
+﻿// FP = Gauss_Skeletal (Gauss Scar reload anim, 99-hook battery mag); world = fishing rod static. Loc keys: sid_items_FW_FishingRod_Wep_name / _description
 // 2026-09-27: rebased from GunRpg7_GL onto GunGauss_Scar_SP (vanilla mag GunGauss_Scar_MagHuge = 99). See Docs/ROD_GAUSS_BASE.md
 FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/ItemPrototypes/WeaponPrototypes.cfg;refkey=GunGauss_Scar_SP}
    SID = FW_FishingRod_Wep
@@ -13,6 +13,6 @@ FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/ItemPrototypes/WeaponPrototyp
    NPCWeaponAttributes = Scar_GunGauss_SP_NPC
    Icon = Texture2D'/FishableWaters/Textures/Icons/T_FW_FishingRod.T_FW_FishingRod'
    Icon1x1 = Texture2D'/FishableWaters/Textures/Icons/T_FW_FishingRod.T_FW_FishingRod'
-   MeshPrototypeSID = FW_Rod_Gauss
+   MeshPrototypeSID = Gauss_Skeletal
    MeshInWorldPrototypeSID = FW_FishingRod_Mesh
 struct.end

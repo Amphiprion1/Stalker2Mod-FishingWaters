@@ -1,5 +1,5 @@
-// Rebased onto GunGauss_Scar_SP (2026-09-27). Mag is FW_Rod_Mag (child of the Scar huge mag, MaxAmmo 99) so the battery meshes can be swapped.
-// Reload anim was tied to the vanilla mag SID. FW_Rod_Mag is a child of that mag; if the reload loses its animation, that is why.
+// Rebased onto GunGauss_Scar_SP (2026-09-27): exact vanilla mag GunGauss_Scar_MagHuge (MaxAmmo=99, battery on jnt_clip_base).
+// Mag SID must stay the vanilla one: the Gauss Scar AnimBP reload keys off it (custom mag SID = no anim / long wait).
 // AmmoCaliber stays A045 (caliber lives on weapon + ammo, not on the mag). Projectile = vanilla empty (Speed=0), never PGA.
 FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/WeaponData/WeaponGeneralSetupPrototypes.cfg;refkey=GunGauss_Scar_SP}
    SID = FW_FishingRod_Wep
@@ -27,7 +27,7 @@ FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/WeaponData/WeaponGeneralSetup
    // ReloadTypes not overridden: inherits Full + Tactical from the Gauss (TemplateSniper).
    WeaponReloadTimePerAttachment : struct.begin {bskipref}
       [0] : struct.begin
-         AttachPrototypeSID = FW_Rod_Mag
+         AttachPrototypeSID = GunGauss_Scar_MagHuge
          TacticalReloadTimeMultiplier = 1.0
          FullReloadTimeMultiplier = 1.0
          SingleBulletReloadTimeMultiplier = 1.0
@@ -37,7 +37,7 @@ FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/WeaponData/WeaponGeneralSetup
    // {bskipref} so the parent Gauss scope / muzzle / laser are NOT compatible or preinstalled.
    CompatibleAttachments : struct.begin {bskipref}
       [0] : struct.begin
-         AttachPrototypeSID = FW_Rod_Mag
+         AttachPrototypeSID = GunGauss_Scar_MagHuge
          Socket = jnt_clip_base
          IconPosX = 0
          IconPosY = 0
@@ -46,7 +46,7 @@ FW_FishingRod_Wep : struct.begin {refurl=@BaseGame/WeaponData/WeaponGeneralSetup
    struct.end
    PreinstalledAttachmentsItemPrototypeSIDs : struct.begin {bskipref}
       [0] : struct.begin
-         AttachSID = FW_Rod_Mag
+         AttachSID = GunGauss_Scar_MagHuge
          bHiddenInInventory = true
       struct.end
    struct.end
