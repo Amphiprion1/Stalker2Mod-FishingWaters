@@ -131,7 +131,7 @@ Save.
 
 ## 9. Blueprint session — après les tables
 
-Sur `BP_FlishableWaters` seulement. `EndFishingSession` reste le seul endroit qui nettoie.
+Sur `BP_FW_FishableWaters` seulement. `EndFishingSession` reste le seul endroit qui nettoie.
 
 Profondeur, à brancher dans le tirage, pas pour armer la pêche :
 
@@ -152,7 +152,7 @@ Les chiffres sont calés sur Max SP 100 et `RegenSP = 5` du prototype Player. `E
 
 Mesh au bout de la ligne :
 
-1. Ajouter un seul Static Mesh Component sur `BP_FlishableWaters`. Pas de collision, pas de physique, tick décoché, Mobility = Movable.
+1. Ajouter un seul Static Mesh Component sur `BP_FW_FishableWaters`. Pas de collision, pas de physique, tick décoché, Mobility = Movable.
 2. En WaitingBite, charger `LineMesh` en asynchrone dans une variable de session, pas dans la map d'espèces.
 3. En Fight : poser le mesh, `LineMeshScale`, l'afficher, le placer au bout de la ligne.
 4. Dans `EndFishingSession` seulement : vider le mesh, le cacher, oublier la variable.

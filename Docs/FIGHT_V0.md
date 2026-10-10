@@ -1,12 +1,12 @@
 ﻿# Fight v0 — build now (weapon Fire path)
 
-Fire already → `BP_FW_FishingRodUse` → `StartFishingSession` on `BP_FlishableWaters`.
+Fire already → `BP_FW_FishingRodUse` → `StartFishingSession` on `BP_FW_FishableWaters`.
 Water still deferred.
 
 ## Already done
 - Enums `EFW_FishingState` / `EFW_FishingEnding` exist
 - Start + Get SP proven
-- Aim = `IA_Aim` Enhanced Input on FlishableWaters
+- Aim = `IA_Aim` Enhanced Input on BP_FW_FishableWaters
 
 ## Wire Fight (in order)
 

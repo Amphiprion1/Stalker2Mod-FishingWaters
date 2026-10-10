@@ -80,7 +80,7 @@ The 2026-10-10 ladder replaces the old two-row seed. Full numbers, bait gates, d
 4. Structure → `ST_FW_FishingZone` → DisplayName + Spawns (Array of ST_FW_FishSpawnEntry).
 5. Right-click → Miscellaneous → **Data Table** → pick `ST_FW_FishSpecies` → name `DT_FW_FishSpecies` → Add rows from seed table.
 6. Data Table → pick `ST_FW_FishingZone` → `DT_FW_FishingZones` → row `DefaultAnywhere` with two Spawns.
-7. On `BP_FlishableWaters`: variable `FishSpeciesDT` (Data Table soft/object ref) = `DT_FW_FishSpecies`; `FishingZonesDT` = `DT_FW_FishingZones`; `ActiveZoneRow` (Name) = `DefaultAnywhere`.
+7. On `BP_FW_FishableWaters`: variable `FishSpeciesDT` (Data Table soft/object ref) = `DT_FW_FishSpecies`; `FishingZonesDT` = `DT_FW_FishingZones`; `ActiveZoneRow` (Name) = `DefaultAnywhere`.
 
 Do **not** wire weighted pick into the FSM yet unless you want it now — assets alone unlock the water step.
 

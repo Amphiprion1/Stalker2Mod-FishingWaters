@@ -1,10 +1,10 @@
 Les données du mod sont en place. Les graphes Blueprint restent à poser dans l’éditeur : l’API Python du Zone Kit ne peut pas lire ni éditer les nœuds (la propriété Nodes est protégée, K2Node_CallFunction n’est pas exposé). Je n’ai pas laissé de copies de BP_FW_FishingRodUse, parce qu’elles appelleraient encore StartFishingSession au moment d’Utiliser un appât.
 
-BP_FlishableWaters est revenu à la version déjà commitée (add bait restriction support). La canne, le shake de tir et le filtre RequiredBaitSID n’ont pas été réécrits.
+BP_FW_FishableWaters est revenu à la version déjà commitée (add bait restriction support). La canne, le shake de tir et le filtre RequiredBaitSID n’ont pas été réécrits.
 
 Inventaire
 
-La session de pêche est BP_FlishableWaters, spawné par BP_Mod_FishableWaters. ActiveBait y existe déjà, avec le filtre « ActiveBait match restriction » contre RequiredBaitSID (tableau de strings sur ST_FW_FishSpawnEntry). L’arme est FW_FishingRod_Wep, base GunRpg7_GL, MaxAmmo = 1, shake de tir FW_FishingRodShake vers BP_FW_FishingRodUse. L’ancien couple FW_Bait / FW_Bait_B (munitions Default / ArmorPiercing) est retiré. Le calibre natif EAmmoCaliber s’arrête à A012, A045, A545, A556, A762, A762NATO, A762Sniper, A918, A919, A939, AGA, AHEDP, APG7V, AVOG, None. Il n’y a pas de valeur libre à créer.
+La session de pêche est BP_FW_FishableWaters, spawné par BP_Mod_FishableWaters. ActiveBait y existe déjà, avec le filtre « ActiveBait match restriction » contre RequiredBaitSID (tableau de strings sur ST_FW_FishSpawnEntry). L’arme est FW_FishingRod_Wep, base GunRpg7_GL, MaxAmmo = 1, shake de tir FW_FishingRodShake vers BP_FW_FishingRodUse. L’ancien couple FW_Bait / FW_Bait_B (munitions Default / ArmorPiercing) est retiré. Le calibre natif EAmmoCaliber s’arrête à A012, A045, A545, A556, A762, A762NATO, A762Sniper, A918, A919, A939, AGA, AHEDP, APG7V, AVOG, None. Il n’y a pas de valeur libre à créer.
 
 Cfg ajoutés
 
@@ -100,7 +100,7 @@ Textes FR dans FW_Feedback_Loc_stub.cfg (sid_items_FW_Hook_*, FW_Bait_Worm_*, FW
 Graphes à poser
 
 1. Enum EFW_ActiveBait dans Content : None, Worm, Meat.
-2. BP_FlishableWaters. La variable ActiveBait est déjà là et sert au filtre string RequiredBaitSID. Passe son type à EFW_ActiveBait, défaut None. Rebranche les pins cassés du match : compare le nom de l’enum (None / Worm / Meat) au tableau RequiredBaitSID.
+2. BP_FW_FishableWaters. La variable ActiveBait est déjà là et sert au filtre string RequiredBaitSID. Passe son type à EFW_ActiveBait, défaut None. Rebranche les pins cassés du match : compare le nom de l’enum (None / Worm / Meat) au tableau RequiredBaitSID.
    • SetActiveBait(NewBait) : Set ActiveBait = NewBait. Rien d’autre.
    • GetActiveBait() : retourne ActiveBait.
    • StartFishingSession lit GetActiveBait() et ne le remet pas à None.
@@ -108,7 +108,7 @@ Graphes à poser
    • None : pas de poisson, toast déjà prévu sid_fw_feedback_DenyNoBait (« Pas d'appât. »).
    • Worm / Meat : le filtre existant. Sur les lignes de zone, mets Worm dans RequiredBaitSID des communs et Meat sur la faune agressive. Aujourd’hui la zone n’a que FWPerch.
 3. Shakes. Duplique BP_FW_FishingRodUse en BP_FW_Shake_BaitWorm et BP_FW_Shake_BaitMeat (parent LegacyCameraShake). Dans Receive Play Shake, remplace l’appel StartFishingSession :
-   • Get All Actors of Class → BP_FlishableWaters → Get index 0
+   • Get All Actors of Class → BP_FW_FishableWaters → Get index 0
    • SetActiveBait(Worm) ou SetActiveBait(Meat)
    • Print String ActiveBait=Worm ou ActiveBait=Meat (écran + log)
    • Dans les defaults du shake, amplitude de toutes les oscillations à 0.

@@ -44,7 +44,7 @@ Old GuitarUsable `FW_FishingRod` → rename/keep as `FW_FishingRod_Legacy` for a
 3. Point `ShootCameraShakePrototypeSID` at existing fishing shake → Print / StartFishingSession
 4. Swap mesh to fishing rod mesh
 5. Damage 0 / no projectile harm
-6. Wire Aim férer (already on FlishableWaters)
+6. Wire Aim férer (already on BP_FW_FishableWaters)
 7. Water last
 
 ## Risks

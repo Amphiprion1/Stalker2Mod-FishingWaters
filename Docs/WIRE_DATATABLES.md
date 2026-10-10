@@ -1,10 +1,10 @@
-﻿# FishableWaters — wire DT_FW_* into BP_FlishableWaters
+﻿# FishableWaters — wire DT_FW_* into BP_FW_FishableWaters
 
 Assets present:
 - Content/Structures/ST_FW_FishSpecies, ST_FW_FishSpawnEntry, ST_FW_FishingZone
 - Content/DataTables/DT_FW_FishSpecies, DT_FW_FishingZones
 
-## A) Variables on BP_FlishableWaters
+## A) Variables on BP_FW_FishableWaters
 
 | Name | Type | Default |
 |---|---|---|

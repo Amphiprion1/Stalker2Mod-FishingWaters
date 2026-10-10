@@ -19,7 +19,7 @@ If already Idle → return (idempotent).
 
 `On PDA Use Started` is Obj-override only, not Assign from PlayerObj.
 
-On `BP_FlishableWaters` (Enable Input already for Aim):
+On `BP_FW_FishableWaters` (Enable Input already for Aim):
 
 1. Enhanced Input **IA_OpenPDA**
    - `InputAction'/Game/_Stalker_2/data/input/InputActions/IA_OpenPDA.IA_OpenPDA'`

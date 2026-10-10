@@ -1,9 +1,9 @@
-﻿# Fishing FSM — clean implementation (BP_FlishableWaters)
+﻿# Fishing FSM — clean implementation (BP_FW_FishableWaters)
 
 Do **not** put the whole session in `StartFishingSession`.
 That function only **enters** the machine. Everything else is small handlers + one teardown.
 
-## 1. Data (variables on BP_FlishableWaters)
+## 1. Data (variables on BP_FW_FishableWaters)
 
 | Name | Type | Role |
 |------|------|------|
@@ -107,7 +107,7 @@ Also useful if present on Obj: receive bullet / melee hit (same AbortDamage).
 - Or: Timer 0.25 s looping while active (lighter than full Tick)
 
 **Interact presses (Fight):**
-- Prefer Enable Input on `BP_FlishableWaters` + Input Action Interact / Use
+- Prefer Enable Input on `BP_FW_FishableWaters` + Input Action Interact / Use
 - Or poll key — avoid inventing private APIs
 - Gate: only accept press when `FishingState == Fight`
 
@@ -141,8 +141,8 @@ Each bubble = **one function**. Event Graph only wires calls.
 
 | BP | Job |
 |----|-----|
-| `BP_FW_FishingRodUse` | Print optional; call `StartFishingSession` on FlishableWaters |
-| `BP_FlishableWaters` | Owns FSM + listeners + loot |
+| `BP_FW_FishingRodUse` | Print optional; call `StartFishingSession` on BP_FW_FishableWaters |
+| `BP_FW_FishableWaters` | Owns FSM + listeners + loot |
 | `BP_Mod_FishableWaters` | Spawn/attach only (unchanged) |
 
 ## Fight input: Aim (RMB / LT)
@@ -153,7 +153,7 @@ On Aim Pressed appears in Blueprint_API_Guide.pdf and as OnAimPressed_BP in the 
 Same class as **On Before Use Item**: BlueprintImplementableEvent on an **Obj subclass** — not Assign/Bind from a Player Obj reference.
 From that pin you only get callables like **Press Aim** (forces aim — useless for listening).
 
-### Reliable capture on BP_FlishableWaters
+### Reliable capture on BP_FW_FishableWaters
 
 1. When entering Fight (or Start): **Enable Input** → Player Controller 0
 2. Event Graph (empty space, not from Player Obj): add **EnhancedInputAction IA_Aim**

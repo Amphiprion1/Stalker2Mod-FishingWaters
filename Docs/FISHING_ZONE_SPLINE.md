@@ -42,7 +42,7 @@ Variables (Instance Editable):
 
 ---
 
-## On BP_FlishableWaters — Function `FindBestFishingZone(Pawn) → (Found: Bool, Zone: BP_FW_FishingZone)`
+## On BP_FW_FishableWaters — Function `FindBestFishingZone(Pawn) → (Found: Bool, Zone: BP_FW_FishingZone)`
 
 1. `Get All Actors Of Class` → `BP_FW_FishingZone`
 2. Locals: `BestZone` (object, none), `BestDist` = 999999

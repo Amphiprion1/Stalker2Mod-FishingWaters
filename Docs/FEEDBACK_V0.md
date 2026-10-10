@@ -58,7 +58,7 @@ Duration / cooldown (unchanged):
 
 ## Architecture
 
-One function on `BP_FlishableWaters`:
+One function on `BP_FW_FishableWaters`:
 
 `ShowFWFeedback(Kind: EFW_FeedbackKind, OptText: String)`
 
@@ -130,9 +130,9 @@ Graph:
 3. On added to viewport (or end of Setup): Set Timer by Event → Duration → RemoveFromParent (fade optional later).
 4. Do **not** resolve Loc SID inside the widget unless you deliberately chose that approach.
 
-### D) `ShowFWFeedback` on `BP_FlishableWaters`
+### D) `ShowFWFeedback` on `BP_FW_FishableWaters`
 
-1. Open `BP_FlishableWaters`.
+1. Open `BP_FW_FishableWaters`.
 2. Variables:
    - `bFWDebugPrint` (bool, **default false**).
    - `LastDenyToastTime` (float) or per-kind cooldown tracking.

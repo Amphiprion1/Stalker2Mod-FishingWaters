@@ -75,7 +75,7 @@ Create struct `ST_FishingSpecies` (UserDefinedStruct) with fields:
 
 Create `Content/DataTables/DT_FishingSpecies`, fill rows from `ModGameData/.../Fishing/species_table_v0.txt`.
 
-Register DT from `BP_FlishableWaters` (same pattern as Disassemble: fill array → your fishing subsystem).
+Register DT from `BP_FW_FishableWaters` (same pattern as Disassemble: fill array → your fishing subsystem).
 
 ### 1.4 Optional water volume tags
 
@@ -93,7 +93,7 @@ Start with **A**.
 1. Place a **trigger / overlap volume** on a water surface (test map WP region, not bare TestLevel).
 2. BP actor `BP_FW_FishingSpot`:
    - On overlap: show interact prompt if player has `FW_FishingRod` in inventory.
-   - On Interact: call fishing session on ModWorldSubsystem / `BP_FlishableWaters`.
+   - On Interact: call fishing session on ModWorldSubsystem / `BP_FW_FishableWaters`.
 3. Optional: attach or spawn rod mesh in hand / nearby (cosmetic). Prefer **inventory check only** for v0 — mesh in world as prop is enough.
 
 ---
@@ -151,7 +151,7 @@ Artifacts / overload need **no special code**: vanilla regen already reacts to a
 ## Phase 4 — Wire into FishableWaters mod BP
 
 1. `BP_Mod_FishableWaters` (ModWorldSubsystem) holds / spawns fishing helper.
-2. `BP_FlishableWaters` (CZ provider) can also own fishing DT load — keep CZ registration intact.
+2. `BP_FW_FishableWaters` (CZ provider) can also own fishing DT load — keep CZ registration intact.
 3. Game Feature stays Registered; fishing spot actors live in level or spawned from subsystem.
 
 ---
