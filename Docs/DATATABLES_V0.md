@@ -24,16 +24,14 @@ Create in ModEditor under `Content/DataTables/` (or `Content/Structs/`).
 | TouchesMax | Integer | Fight Aim presses max |
 | GapMinSec | Float | Optional delay between touches (v0 can ignore) |
 | GapMaxSec | Float | Optional |
-| StaminaCostPct | Float | % of **Max SP** per successful touch (same as Fight v0) |
+| StaminaCostPct | Float | % of **Max SP** spent on each successful touch. |
 | MinDepthCm | Float | Minimum water depth in centimetres. `0` = no minimum. |
 | MaxDepthCm | Float | Maximum depth in centimetres. `0` = no maximum. |
-| RequiredItemSID | String | Empty, or `EArtifactSoul` for the patriarch. Possession, not equipped. |
-| RequiredItemCount | Integer | `0` if unused. Patriarch = `2`. |
 | LineMesh | Static Mesh (soft object reference) | Shown at the line end. Several rows may share one mesh. |
 | LineMeshScale | Float | Default `1`. |
 
 Row Name = species id (`FWPerch_Common`, `FWPerch_Heavy`, …). Do **not** duplicate Row Name in a String field.
-Depth, the artifact count, and the line mesh are not in the Blueprint yet. Values to type are in `Docs/LADDER_EDITOR.md`.
+Depth and the line mesh are not in the Blueprint yet. Fight numbers are in `Docs/LADDER_EDITOR.md`. There is no artifact prerequisite. Equipped `EArtifactSoul` only helps because vanilla regen is faster.
 
 ---
 

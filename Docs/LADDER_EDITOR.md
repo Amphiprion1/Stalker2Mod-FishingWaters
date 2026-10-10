@@ -32,10 +32,10 @@ Content Browser → `Content/Structures/ST_FW_FishSpecies` → ouvrir → ajoute
 |---|---|
 | MinDepthCm | Float |
 | MaxDepthCm | Float |
-| RequiredItemSID | String |
-| RequiredItemCount | Integer |
 | LineMesh | Static Mesh, Soft Object Reference |
 | LineMeshScale | Float, défaut 1 |
+
+Pas de champ « artefact requis ». `EArtifactSoul` n'est pas testé par le mod. Équipé, il accélère la régénération vanilla.
 
 `RequiredBaitSID` reste sur `ST_FW_FishSpawnEntry`. Il filtre déjà dans `ResolveActiveFish`.
 
@@ -45,14 +45,14 @@ Ouvrir `Content/DataTables/DT_FW_FishSpecies`. Si une seule ligne `FWPerch` exis
 
 Mesh commun (soft) : `/Game/_Stalker_2/VFX/Environment/Water/SM_VFX_FishDead.SM_VFX_FishDead`
 
-| Row Name | LootItemSID | Wait min/max | Touches min/max | Gap min/max | Stam % | Min cm | Max cm | Item | Count | Scale |
-|---|---|---|---|---|---|---|---|---|---|---|
-| FWBleak | FWBleak | 1 / 3 | 2 / 3 | 1.5 / 2.5 | 5 | 20 | 80 | | 0 | 0.45 |
-| FWPerch_Common | FWPerch | 2 / 5 | 3 / 5 | 1.2 / 2.5 | 8 | 40 | 0 | | 0 | 0.80 |
-| FWPerch_Heavy | FWPerchHeavy | 3 / 6 | 6 / 8 | 1.0 / 2.0 | 10 | 60 | 0 | | 0 | 1.10 |
-| FWPike | FWPike | 3 / 7 | 7 / 10 | 0.8 / 1.6 | 12 | 80 | 0 | | 0 | 1.30 |
-| FWCatfish | FWCatfish | 4 / 8 | 9 / 12 | 0.7 / 1.4 | 14 | 120 | 0 | | 0 | 1.70 |
-| FWCatfish_Patriarch | FWCatfishPatriarch | 6 / 10 | 12 / 16 | 0.6 / 1.2 | 16 | 150 | 0 | EArtifactSoul | 2 | 2.20 |
+| Row Name | LootItemSID | Wait min/max | Touches | Gap s | Stam % | Min cm | Max cm | Scale |
+|---|---|---|---|---|---|---|---|---|
+| FWBleak | FWBleak | 1 / 3 | 2 / 4 | 2.6 / 3.2 | 12 | 20 | 80 | 0.45 |
+| FWPerch_Common | FWPerch | 2 / 5 | 4 / 6 | 2.6 / 3.0 | 16 | 40 | 0 | 0.80 |
+| FWPerch_Heavy | FWPerchHeavy | 3 / 6 | 5 / 8 | 2.6 / 3.0 | 20 | 60 | 0 | 1.10 |
+| FWPike | FWPike | 3 / 7 | 7 / 9 | 2.8 / 3.1 | 23 | 80 | 0 | 1.30 |
+| FWCatfish | FWCatfish | 4 / 8 | 7 / 9 | 2.8 / 3.1 | 29 | 120 | 0 | 1.70 |
+| FWCatfish_Patriarch | FWCatfishPatriarch | 6 / 10 | 7 / 9 | 2.4 / 2.8 | 40 | 150 | 0 | 2.20 |
 
 Max cm `0` = pas de maximum. Save.
 
@@ -141,11 +141,14 @@ Profondeur, à brancher dans le tirage, pas pour armer la pêche :
 4. Si le sol n'est pas touché, la profondeur est inconnue : ignorer tout poisson dont `MinDepthCm` > 0.
 5. Ignorer un poisson si la profondeur est sous `MinDepthCm`, ou au-dessus de `MaxDepthCm` quand `MaxDepthCm` > 0.
 
-Âmes, sur la ligne patriarche seulement :
+Combat, dans le cycle de touches déjà en place. Pas de test d'artefact.
 
-1. Compter `EArtifactSoul` dans l'inventaire du joueur. Possédé, pas équipé.
-2. Si le compte est inférieur à `RequiredItemCount`, poids 0 pour cette ligne.
-3. S'il n'y a pas de nœud de comptage dans la palette, s'arrêter et le dire. Ne pas inventer l'appel.
+1. Au début du Fight, la barre est pleine. Le joueur reste immobile. Sprint et Aim ont des coefs de regen négatifs dans `CoreVariables.cfg`.
+2. Chaque touche réussie retire `StaminaCostPct` % du Max SP (`Get Max SP`, puis `Set SP`).
+3. Entre deux touches, attendre `Gap` secondes. La regen vanilla tourne pendant cette attente.
+4. Si `Get SP` est sous le coût au moment de la touche, `EndFishingSession(FailStamina)`.
+
+Les chiffres sont calés sur Max SP 100 et `RegenSP = 5` du prototype Player. `EArtifactSoul` équipé porte `ArtifactIncreaseRegenStamina2` = +5. Deux Âmes équipées font +10 si les effets s'additionnent. Le poids ralentit cette regen (`InventorySPDrainCoef` 0.024, surcharge 0.05, `InventoryPenaltyLessWeight` 50). La formule exacte du poids n'est pas dans le cfg : un essai en jeu doit confirmer qu'un joueur léger sans Âme rate le patriarche, et que deux Âmes équipées ne suffisent que s'il s'est allégé.
 
 Mesh au bout de la ligne :
 
