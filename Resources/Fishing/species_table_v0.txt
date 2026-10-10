@@ -1,8 +1,15 @@
-﻿# FishableWaters — fishing species table (v0)
-# Canonical DT: Content/DataTables/DT_FW_FishSpecies (struct ST_FW_FishSpecies)
-# See Docs/DATATABLES_V0.md
+# FishableWaters — species ladder (2026-10-10)
+# Canonical DT: Content/DataTables/DT_FW_FishSpecies
+# Editor checklist: Docs/LADDER_EDITOR.md
+# Depth unit is centimetres. MaxDepthCm 0 = no maximum.
+# RequiredItemCount 0 = no item gate. EArtifactSoul is possession, not equipped.
+# Line mesh for every row: /Game/_Stalker_2/VFX/Environment/Water/SM_VFX_FishDead
+# Bait and weight live on the pier spawn entry (RequiredBaitSID + Weight), not in this table.
 
-# RowName | LootItemSID | WaitMinSec | WaitMaxSec | TouchesMin | TouchesMax | GapMinSec | GapMaxSec | StaminaCostPct
-FWPerch_Common | FWPerch | 2.0 | 5.0 | 3 | 5 | 1.2 | 2.5 | 8
-FWPerch_Heavy  | FWPerch | 3.0 | 6.0 | 6 | 9 | 1.0 | 2.0 | 12
-# FWCatfish_Rare | FWCatfish | 4.0 | 8.0 | 10 | 14 | 0.8 | 1.6 | 18
+# RowName | LootItemSID | WaitMin | WaitMax | TouchesMin | TouchesMax | GapMin | GapMax | StaminaCostPct | MinDepthCm | MaxDepthCm | RequiredItemSID | RequiredItemCount | LineMeshScale | Bait | Weight
+FWBleak              | FWBleak            | 1 | 3  | 2  | 3  | 1.5 | 2.5 | 5  | 20  | 80 |                | 0 | 0.45 | FW_Bait_Worm | 40
+FWPerch_Common       | FWPerch            | 2 | 5  | 3  | 5  | 1.2 | 2.5 | 8  | 40  | 0  |                | 0 | 0.80 | FW_Bait_Worm | 35
+FWPerch_Heavy        | FWPerchHeavy       | 3 | 6  | 6  | 8  | 1.0 | 2.0 | 10 | 60  | 0  |                | 0 | 1.10 | FW_Bait_Meat | 20
+FWPike               | FWPike             | 3 | 7  | 7  | 10 | 0.8 | 1.6 | 12 | 80  | 0  |                | 0 | 1.30 | FW_Bait_Meat | 20
+FWCatfish            | FWCatfish          | 4 | 8  | 9  | 12 | 0.7 | 1.4 | 14 | 120 | 0  |                | 0 | 1.70 | FW_Bait_Meat | 15
+FWCatfish_Patriarch  | FWCatfishPatriarch | 6 | 10 | 12 | 16 | 0.6 | 1.2 | 16 | 150 | 0  | EArtifactSoul  | 2 | 2.20 | FW_Bait_Deep | 10

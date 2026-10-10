@@ -25,8 +25,15 @@ Create in ModEditor under `Content/DataTables/` (or `Content/Structs/`).
 | GapMinSec | Float | Optional delay between touches (v0 can ignore) |
 | GapMaxSec | Float | Optional |
 | StaminaCostPct | Float | % of **Max SP** per successful touch (same as Fight v0) |
+| MinDepthCm | Float | Minimum water depth in centimetres. `0` = no minimum. |
+| MaxDepthCm | Float | Maximum depth in centimetres. `0` = no maximum. |
+| RequiredItemSID | String | Empty, or `EArtifactSoul` for the patriarch. Possession, not equipped. |
+| RequiredItemCount | Integer | `0` if unused. Patriarch = `2`. |
+| LineMesh | Static Mesh (soft object reference) | Shown at the line end. Several rows may share one mesh. |
+| LineMeshScale | Float | Default `1`. |
 
 Row Name = species id (`FWPerch_Common`, `FWPerch_Heavy`, …). Do **not** duplicate Row Name in a String field.
+Depth, the artifact count, and the line mesh are not in the Blueprint yet. Values to type are in `Docs/LADDER_EDITOR.md`.
 
 ---
 
@@ -59,23 +66,11 @@ Row Name = zone id (`DefaultAnywhere`, `LesserZone_Pond_01`, …).
 | `DT_FW_FishSpecies` | `ST_FW_FishSpecies` | `Content/DataTables/DT_FW_FishSpecies` |
 | `DT_FW_FishingZones` | `ST_FW_FishingZone` | `Content/DataTables/DT_FW_FishingZones` |
 
-### Seed rows (match `species_table_v0.txt`)
+### Seed rows
 
-**DT_FW_FishSpecies**
+The 2026-10-10 ladder replaces the old two-row seed. Full numbers, bait gates, disassemble yields, and craft rows are in `Docs/LADDER_EDITOR.md` and `Resources/Fishing/species_table_v0.txt`.
 
-| Row Name | LootItemSID | WaitMin | WaitMax | TouchesMin | TouchesMax | GapMin | GapMax | StaminaCostPct |
-|---|---|---|---|---|---|---|---|---|
-| FWPerch_Common | FWPerch | 2.0 | 5.0 | 3 | 5 | 1.2 | 2.5 | 8 |
-| FWPerch_Heavy | FWPerch | 3.0 | 6.0 | 6 | 9 | 1.0 | 2.0 | 12 |
-
-**DT_FW_FishingZones**
-
-| Row Name | Spawns |
-|---|---|
-| DefaultAnywhere | FWPerch_Common @ 70, FWPerch_Heavy @ 30 |
-| (later spots) | … |
-
-`DefaultAnywhere` is what `BP_FlishableWaters` uses until water spots exist.
+`DT_FW_FishingZones.uasset` was deleted and must not be recreated. Spawn weights and `RequiredBaitSID` are typed on the placed pier's `ST_FW_FishingZone`.
 
 ---
 
@@ -105,6 +100,6 @@ Replace hardcoded Wait 2–5 s / 3 touches / 8% / `FWPerch` with the resolved ro
 
 ## Files kept in sync
 
-- Draft text: `Content/GameLite/ModGameData/FishableWaters/Fishing/species_table_v0.txt`
+- Draft text: `Resources/Fishing/species_table_v0.txt`
 - Zones draft: `.../Fishing/zones_table_v0.txt`
 - This doc: `Docs/DATATABLES_V0.md`

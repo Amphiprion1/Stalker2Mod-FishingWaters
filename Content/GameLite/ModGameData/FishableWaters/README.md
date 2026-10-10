@@ -2,9 +2,9 @@
 
 Sole cfg home: `Content/GameLite/ModGameData/FishableWaters/`
 
-- `ItemPrototypes/` — fish items (`FWPerch` and fillets) and baits (`FW_Bait_Worm`, `FW_Bait_Meat`)
-- `EffectPrototypes/` + `CameraShakePrototypes/` — bait Use shakes (`FW_Effect_BaitWorm` / `FW_Effect_BaitMeat`)
-- `QuestPrototypes/` + `QuestNodePrototypes/` — Craftable Zone disassemble only: `FishableWaters_FWPerch_Disassembling_FWPerch_Remove` (removes 1× `FWPerch`)
+- `ItemPrototypes/` — fish, fillets, meals (`FishableWaters_LadderItems.cfg`) and baits (`FW_Bait_Worm`, `FW_Bait_Meat`, `FW_Bait_Deep`)
+- `EffectPrototypes/` + `CameraShakePrototypes/` — bait Use shakes, plus `FW_Effect_MealRegenStamina` on the patriarch meal
+- `QuestPrototypes/` + `QuestNodePrototypes/` — Craftable Zone only. Kept: `FishableWaters_FWPerch_Disassembling_FWPerch_Remove` (removes 1× `FWPerch`). Added: disassemble removes for the new carcasses, three bait craft quests, five cook-ingredient quests, and one cook quest per meal for `KpDryFuel`, `KpCharcoal`, `KpKerosene`, `KpGasBaloon` (count 1). No cook-tool quests. Numbers and DT rows: `Docs/LADDER_EDITOR.md`.
 
 The weapon rod (`FW_FishingRod_Wep`), hook ammo (`FW_Hook`), mag (`FW_Rod_Mag`), and rod mesh prototypes were removed. Do not add them back.
 
